@@ -1,0 +1,42 @@
+import string
+import secrets
+
+# Store all characters in lists
+s1 = list(string.ascii_lowercase)
+s2 = list(string.ascii_uppercase)
+s3 = list(string.digits)
+s4 = list(string.punctuation)
+
+# Length of password
+user_input = input("How many characters do you want in your password? Hint: a strong password should be at least 12 characters long. ")
+
+# Check if password is more than 12 characters
+while True:
+    try:
+        characters_number = int(user_input)
+        if characters_number < 12:
+            print("The Password should be more than 12 Characters.")
+            user_input = input("Please, Enter your number again: ")
+        else:
+            break
+    except:
+        print("Please, Enter numbers only.")
+        user_input = input("How many characters do you want in your password? ")
+
+# Ensure at least one of each type of character
+result = [
+    secrets.choice(s1),  # One lowercase letter
+    secrets.choice(s2),  # One uppercase letter
+    secrets.choice(s3),  # One digit
+    secrets.choice(s4)   # One special character
+]
+
+# Fill the rest of the password length with random choices
+result += [secrets.choice(s1 + s2 + s3 + s4) for _ in range(characters_number - 4)]
+
+# Shuffle the result for randomness
+secrets.SystemRandom().shuffle(result)
+
+# Join result to create the final password
+password = ''.join(result)
+print("Strong Password:", password)
